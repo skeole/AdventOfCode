@@ -114,7 +114,7 @@ def rangeforheight(h):
     if len(ranges) > 1:
         print("Part two : " + str(4000000 * (ranges[0][1] + 1) + h))
 
-rangeforheight(3442119)
+rangeforheight(3442119) #wow, I guess I'm very lucky
 
 #for i in tqdm(range(4000000)): rangeforheight(i) #you can do this if you want, it takes roughly 2 mins
-                            #you have to run this to get the number though
+                            #you have to run this to get the number though, then mod 4000000
