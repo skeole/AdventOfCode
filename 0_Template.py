@@ -1,7 +1,9 @@
 import math
 import copy
-from tqdm import tqdm as tqdm
+import time
+from tqdm import tqdm as tqdm #run pip3 install tqdm in terminal
 
+start = time.time()
 X = []
 
 with open("0_Data.txt") as fileInput:

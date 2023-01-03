@@ -1,6 +1,6 @@
 import math
 import copy
-from tqdm import tqdm as tqdm #run pip3 install tqdm in terminal
+from tqdm import tqdm as tqdm
 
 X = []
 
