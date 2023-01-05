@@ -72,7 +72,7 @@ def getmonkey(index):
             X[index] = [float(getmonkey(X[index][0][0]) / getmonkey(X[index][0][1]))]
     return X[index][0]
 
-print("Part one : " + str(int(getmonkey(0))))
+print("Part one : " + str(int(getmonkey(0) + 0.5)))
 print("Time for part one : " + str(int((time.time() - start) * 100) / 1000.0))
 print()
 start = time.time()
@@ -115,6 +115,6 @@ larger_number = getmonkey(0)
 
 slope = (zero - larger_number) / larger_index
 
-print("Part two : " + str(int(zero / slope)))
+print("Part two : " + str(int(zero / slope + 0.5)))
 print("Time for part two : " + str(int((time.time() - start) * 1000) / 1000.0))
 start = time.time()

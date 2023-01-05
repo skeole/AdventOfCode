@@ -108,6 +108,11 @@ def minimax(positions):
     return [mini, maxi]
 
 print()
+steights = []
+yes = True
+cycle = -1
+heights = []
+difference = -1
 
 for i in tqdm(range(numrocks)): #i = 0 --> after 1 rock; i == 2021 --> after 2022 rocks
     CauseImFreeFallin = True
@@ -127,10 +132,8 @@ for i in tqdm(range(numrocks)): #i = 0 --> after 1 rock; i == 2021 --> after 202
         case 4:
             fallingrock = [[2, min_height], [3, min_height], [2, min_height + 1], [3, min_height + 1]]
     
-    stor = ""
     while (CauseImFreeFallin):
         jet_sweep = pattern[counter]
-        stor += pattern[counter]
         
         if (jet_sweep == ">"):
             if (minimax(fallingrock)[1] < 6):
@@ -155,10 +158,28 @@ for i in tqdm(range(numrocks)): #i = 0 --> after 1 rock; i == 2021 --> after 202
         counter %= len(pattern)
     
     formation = combine(formation, fallingrock)
+    state = [i % 5, counter, formation]
+    if yes and (state not in steights):
+        heights.append(totalheight + len(formation))
+        steights.append(state)
+    elif yes:
+        yes = False
+        tempo = steights.index(state)
+        cycle = i - tempo
+        difference = totalheight + len(formation) - heights[tempo]
+        tempoheights = [0] * cycle
+        for j in range(tempo, i):
+            tempoheights[j % cycle] = heights[j]
+        heights = copy.deepcopy(tempoheights)
     
-    if i == numrocks - 1:
+    if i == 2021:
         th1 = totalheight + len(formation)
+
+def heightat(pos):
+    temp = heights[(pos - 1) % len(heights)] + difference * int((pos - 1 - tempo) / len(heights))
+    return str(temp)
 
 print()
 print("Part one : " + str(th1))
+print("Part two : " + heightat(1000000000000))
 #printrock(formation)
