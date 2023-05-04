@@ -11,4 +11,7 @@ with open("0_Data.txt") as fileInput:
 
 for line in file:
     C = line.strip()
-    X.append(C)
+    X.append(int(C))
+
+# X is literally our data
+Grove_Data = deepcopy(X) # this is the order of the list and it's in

@@ -28,11 +28,26 @@ for line in file:
 # A-HA! WE CHOOSE THE ORDER WE WANT TO GET THEM IN!!!!!
 
 # Part 1, num_days is 24
+
+def maxoftwo(a, b):
+    if a > b:
+        return a
+    return b
+
+def maxoftree(a, b, c):
+    return maxoftwo(maxoftwo(a, b), c)
+
+def simpl(expr):
+    if (expr > 0):
+        return int(expr)
+    return 0
     
 def heres_the_order_of_my_list_and_its_in(next_robot, blueprint, days_left, starting_robots=[1, 0, 0, 0], starting_resources=[0, 0, 0, 0]):
+    
     t = days_left
-    robots = starting_robots.copy()
-    resources = starting_resources.copy()
+    robots = [starting_robots[0], starting_robots[1], starting_robots[2], starting_robots[3]]
+    resources = [starting_resources[0], starting_resources[1], starting_resources[2], starting_resources[3]]
+    
     while (t > 0 and (resources[0] < blueprint[next_robot][0] or resources[1] < blueprint[next_robot][1] or resources[2] < blueprint[next_robot][2])):
         t -= 1
         for i in range(4):
@@ -50,7 +65,48 @@ def heres_the_order_of_my_list_and_its_in(next_robot, blueprint, days_left, star
         for i in range(4):
             if robots[i] > blueprint[i][3]:
                 boolean = False
-    return [resources[3] + robots[3] * t, boolean, [t, robots, resources]]
+    should = [resources[3] + robots[3] * t, boolean, [t, robots, resources]] 
+    
+    return should
+    
+    ''' Failed Optimization :( Didn't make it that much slower, just didn't make it faster
+    robots = [starting_robots[0], starting_robots[1], starting_robots[2], starting_robots[3]]
+    resources = [starting_resources[0], starting_resources[1], starting_resources[2], starting_resources[3]]
+    ndc = 100
+    if next_robot < 2:
+        ndc = maxoftwo(simpl((blueprint[next_robot][0] - resources[0] - 1) / robots[0] + 1) + 1, 1)
+        resources[0] += ndc * robots[0] - blueprint[next_robot][0]
+        resources[1] += ndc * robots[1]
+        resources[2] += ndc * robots[2]
+        resources[3] += ndc * robots[3]
+        robots[next_robot] += 1
+        # ex. if we're missing 3, then we need this many days
+        # int((resources[0] - blueprint[next_robot] - 1) / robots[next_robot]) + 1 to get resources then + 1 to make robot
+    elif next_robot == 2:
+        if (robots[1] > 0):
+            ndc = maxoftree(simpl((blueprint[2][0] - resources[0] - 1) / robots[0] + 1) + 1, simpl((blueprint[2][1] - resources[1] - 1) / robots[1] + 1) + 1, 1)
+            resources[0] += ndc * robots[0] - blueprint[2][0]
+            resources[1] += ndc * robots[1] - blueprint[2][1]
+            resources[2] += ndc * robots[2]
+            resources[3] += ndc * robots[3]
+            robots[2] += 1
+    else:
+        if (robots[2] > 0):
+            ndc = maxoftree(simpl((blueprint[3][0] - resources[0] - 1) / robots[0] + 1) + 1, simpl((blueprint[3][2] - resources[2] - 1) / robots[2] + 1) + 1, 1)
+            resources[0] += ndc * robots[0] - blueprint[3][0]
+            resources[1] += ndc * robots[1]
+            resources[2] += ndc * robots[2] - blueprint[3][2]
+            resources[3] += ndc * robots[3]
+            robots[3] += 1
+    
+    for i in range(4):
+        if robots[i] > blueprint[i][3]:
+            ndc = 100
+    if (ndc >= days_left):
+        return [0, False, [0, 0, 0]]
+    actual = [resources[3] + robots[3] * (days_left - ndc), True, [days_left - ndc, robots, resources]]
+    
+    return actual '''
 # [number of geode, should continue branch, # days after last bot, # robots, # resources after last bot]
 
 def iterate_bfs(current, cache, depth): # if we want to end the previous branch
@@ -69,7 +125,6 @@ def maximal_score(blueprint, num_days):
     cachedresults = [-1] * num_days
     next_guess = 0
     
-    # i = 0
     depth = 0
     
     while (len(tree) == 0) or (tree[0] < 2): # we can never start with an obsidian
@@ -97,11 +152,7 @@ def maximal_score(blueprint, num_days):
                 next_guess = k[1]
                 if (depth == 0 and next_guess > 1):
                     break
-        
-        # i += 1
-        #if (i % 100000 == 0):
-        #    print(i)
-    # print(i)
+    
     return max_score
 
 c = 0
