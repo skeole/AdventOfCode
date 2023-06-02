@@ -1,4 +1,3 @@
-print(7/3)
-import math
-print(math.ceil(7/3))
-print(int(7/3))
+print(1/2)
+print(0.5 % 1)
+print(3 % 1 == 0)

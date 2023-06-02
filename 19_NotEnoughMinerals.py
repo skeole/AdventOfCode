@@ -18,7 +18,7 @@ for line in file:
     
     C[1] = C[1].split(" ore. Each obsidian robot costs ")
     C[1][1] = C[1][1].split(" ore and ")
-    C[1][1][1] = C[1][1][1].split(" clay. Each geode robot costs ")
+    C[1][1][1] = C[1][1][1].split(" clay. Each geode robot costs ") # this is the worst parsing of all time
     linenum += 1
     X.append([[int(C[0]), 0, 0, max(int(C[1][0]), int(C[1][1][0]), int(C[1][1][1][1]))], [int(C[1][0]), 0, 0, int(C[1][1][1][0])], [int(C[1][1][0]), int(C[1][1][1][0]), 0, int(C[1][1][2])], [int(C[1][1][1][1]), 0, int(C[1][1][2]), 32]])
 
